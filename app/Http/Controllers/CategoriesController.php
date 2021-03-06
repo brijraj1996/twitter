@@ -19,7 +19,10 @@ class CategoriesController extends Controller
         // $query = Category::has('posts','>=',2)->get();     --answer to 2nd query
 
         // $query = Category::whereRaw('LENGTH(name) = 3')->get();   --answer to 1st query
+
         //    dd($query);
+
+        $this->authorize('viewAny',Category::class);
         $categories = Category::all();
         return view('categories.index',compact('categories'));
     }
@@ -31,6 +34,7 @@ class CategoriesController extends Controller
      */
     public function create()
     {
+        $this->authorize('create',Category::class);
         return view('categories.create');
     }
 
@@ -42,6 +46,7 @@ class CategoriesController extends Controller
      */
     public function store(CategoryRequest $request)
     {
+        $this->authorize('create',Category::class);
         Category::create($request->validated());
         return redirect('categories');
     }
@@ -65,6 +70,7 @@ class CategoriesController extends Controller
      */
     public function edit(Category $category)
     {
+        $this->authorize('update',Category::class);
         return view('categories.edit',compact('category'));
     }
 
@@ -77,6 +83,7 @@ class CategoriesController extends Controller
      */
     public function update(CategoryRequest $request, Category $category)
     {
+        $this->authorize('update',Category::class);
         $category->update($request->validated());
         return redirect('categories');
     }
@@ -89,6 +96,7 @@ class CategoriesController extends Controller
      */
     public function destroy(Category $category)
     {
+        $this->authorize('delete',Category::class);
         $category->delete();
         return redirect('categories');
     }

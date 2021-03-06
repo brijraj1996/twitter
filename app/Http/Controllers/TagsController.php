@@ -15,6 +15,7 @@ class TagsController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny',Tag::class);
         $tags = Tag::all();
         return view('tags.index',compact('tags'));
     }
@@ -26,6 +27,7 @@ class TagsController extends Controller
      */
     public function create()
     {
+        $this->authorize('create',Tag::class);
         return view('tags.create');
     }
 
@@ -37,6 +39,7 @@ class TagsController extends Controller
      */
     public function store(TagRequest $request)
     {
+        $this->authorize('create',Tag::class);
         Tag::create($request->validated());
         return redirect('tags');
     }
@@ -60,6 +63,7 @@ class TagsController extends Controller
      */
     public function edit(Tag $tag)
     {
+        $this->authorize('update',Tag::class);
         return view('tags.edit',compact('tag'));
     }
 
@@ -72,6 +76,7 @@ class TagsController extends Controller
      */
     public function update(TagRequest $request, Tag $tag)
     {
+        $this->authorize('update',Tag::class);
         $tag->update($request->validated());
         return redirect('tags');
     }
@@ -84,6 +89,7 @@ class TagsController extends Controller
      */
     public function destroy(Tag $tag)
     {
+        $this->authorize('delete',Tag::class);
         $tag->delete();
         return redirect('tags');        
     }

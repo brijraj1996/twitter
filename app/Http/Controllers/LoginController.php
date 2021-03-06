@@ -25,17 +25,15 @@ class LoginController extends Controller
 
     public function log(Request $request)
     {
-    
+
         $this->validate($request,[
-            'email' => 'required', 
+            'email' => 'required|email', 
             'password' => 'required'
         ]);
 
-        // $request['password'] = dcrypt($request->password);
-
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password]))
         {
-            return redirect('/home');
+            return redirect('home');
         }
 
         return 'oops! something went wrong';
@@ -43,17 +41,15 @@ class LoginController extends Controller
 
     public function register(Request $request)
     {
-    //   dd('hi');
-        
-        $this->validate($request,[
+        $data = $this->validate($request,[
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|email',
             'password' => 'required',
             'confirm' => 'required'
         ]);
-
-        // $request['password'] = bcrypt($request->password);
-        User::create($request->all());
+    
+        User::create($data);
+       
         return redirect('login');
     }
 }

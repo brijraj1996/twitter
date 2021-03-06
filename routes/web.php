@@ -18,11 +18,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::post('/auth','LoginController@register')->name('register');
 Route::get('/home','LoginController@home')->name('home');
+Route::get('/login','LoginController@showLoginForm')->name('login');
 Route::post('/log','LoginController@log')->name('log');
 Route::get('/register','LoginController@showRegisterForm');
-Route::get('/login','LoginController@showLoginForm')->name('login');
-Route::resource('/categories','CategoriesController');
-Route::resource('/posts','PostsController');
-Route::resource('/tags','TagsController');
+Route::resource('/roles','RolesController');
+Route::resource('/users','UsersController');
+
+Route::group(['middleware' => ['role:admin']], function(){
+    Route::resource('/categories','CategoriesController');
+    Route::resource('/posts','PostsController');
+    Route::resource('/tags','TagsController');    
+});

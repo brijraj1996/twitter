@@ -27,6 +27,8 @@ class PostsController extends Controller
         // $query = Post::has('tags','>=',2)->get();          --answer to 4th query.
 
         // dd($query);
+
+    //    $this->authorize('viewAny', Post::class);
        $posts =Post::all();
        return view('posts.index',compact('posts'));
     }
@@ -37,7 +39,8 @@ class PostsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {   
+    { 
+        // $this->authorize('create',Post::class);  
         $categories = Category::all();
         $tags = Tag::all();
         return view('posts.create',compact('categories','tags'));
@@ -51,6 +54,7 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
+        // $this->authorize('create',Post::class);
         $data = $this->validate($request,[
             'title' => 'required',
             'description' => 'required',
@@ -82,6 +86,7 @@ class PostsController extends Controller
      */
     public function edit(Request $request,Post $post)
     {
+        // $this->authorize('update',Post::class);
         $selectedValue = $post->category_id;
         $categories = Category::all();
         $tags = Tag::all();
@@ -97,7 +102,7 @@ class PostsController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        // dd($request->all());
+        // $this->authorize('update',Post::class);
         $data = $this->validate($request,[
             'title' => 'required',
             'description' => 'required',
@@ -118,6 +123,7 @@ class PostsController extends Controller
      */
     public function destroy(Post $post)
     {
+        // $this->authorize('delete',Post::class);
         $post->delete();
         return redirect('posts');
     }
